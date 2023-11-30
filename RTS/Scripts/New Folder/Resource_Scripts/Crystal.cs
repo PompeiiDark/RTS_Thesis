@@ -6,7 +6,7 @@ public class Crystal : MonoBehaviour
 {
     public int totalCrystalValue = 450;//total value of each crystal object
     public int collectionValue = 10;//each time collect value
-
+    [SerializeField]
     int currentCrystalValue;
     // Start is called before the first frame update
     void Start()

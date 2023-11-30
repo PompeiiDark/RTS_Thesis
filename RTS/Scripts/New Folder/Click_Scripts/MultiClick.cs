@@ -88,7 +88,7 @@ public class MultiClick : MonoBehaviour
             selectionBox.yMax = StartPos.y;
         }
         else
-        {
+        { 
             //Draging to up
             selectionBox.yMax = Input.mousePosition.y;
             selectionBox.yMin = StartPos.y;
@@ -97,13 +97,16 @@ public class MultiClick : MonoBehaviour
 
     void SelectUnits()
     {
-        //loop thus all the units
-        foreach (var unit in GameControllor.instance.existingunit)
-        {
-            //if unit is at inside of the selection box,add it
-            if (selectionBox.Contains(camera.WorldToScreenPoint(unit.transform.position)))
+        if (selectionBox.width >= 1 && selectionBox.height >= 1)//Distinguish between click and drag
+        {//loop thus all the units
+            GameControllor.instance.DeselectAll();
+            foreach (var unit in GameControllor.instance.existingunit)
             {
-                GameControllor.instance.DragSelect(unit);
+                //if unit is at inside of the selection box,add it
+                if (unit != null && selectionBox.Contains(camera.WorldToScreenPoint(unit.transform.position)))
+                {
+                    GameControllor.instance.DragSelect(unit);
+                }
             }
         }
     }

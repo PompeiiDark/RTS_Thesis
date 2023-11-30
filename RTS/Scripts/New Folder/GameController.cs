@@ -9,6 +9,7 @@ public class GameControllor : MonoBehaviour
     private static GameControllor _instance;
     public static GameControllor instance { get { return _instance; } }
 
+
     public List<GameObject> existingunit = new List<GameObject>();
     public List<GameObject> currenSelection_Unit = new List<GameObject>();
     public List<GameObject> enemysObject = new List<GameObject>();
@@ -16,7 +17,7 @@ public class GameControllor : MonoBehaviour
     public Transform avatar_cameraTrans;
     private void Awake()
     {
-        if (_instance != null & _instance != this)
+        if (_instance != null && _instance != this)
         {
             Destroy(this.gameObject);
         }
@@ -28,90 +29,72 @@ public class GameControllor : MonoBehaviour
     }
     private void Update()
     {
-
+        
     }
-   
+
     public void OnLeftMouseClickSelect(GameObject unit)
     {
         DeselectAll();
-        currenSelection_Unit.Add(unit);
-        unit.transform.GetChild(0).gameObject.SetActive(true);//Active the selected circle
-        unit.transform.GetChild(1).gameObject.SetActive(true);//UI Panel active
-        unit.GetComponent<UnitBehavior>().enabled=true;
-        //ShowCurrentPanel();
+        BuildingManager.instance.DeselectAll();
+        if (unit.GetComponent<UnitBehavior>().IsUnit())
+        {
+            currenSelection_Unit.Add(unit);
+            unit.transform.GetChild(0).gameObject.SetActive(true);//Active the selected circle
+            unit.transform.GetChild(1).gameObject.SetActive(true);//UI Panel active
+        }
+        SetCameraPos(unit.GetComponent<UnitBehavior>().cameraPos);
     }
     public void OnShiftClickSelect(GameObject unit)
     {
+        BuildingManager.instance.DeselectAll();
         //if not contain
-        if (!currenSelection_Unit.Contains(unit))
+        if (unit.GetComponent<UnitBehavior>().IsUnit())
         {
-            currenSelection_Unit.Add(unit);
-            unit.transform.GetChild(0).gameObject.SetActive(true);
-            unit.GetComponent<UnitBehavior>().enabled = true;
-        }
-        else
-        {
-            unit.GetComponent<UnitBehavior>().enabled = false;
-            unit.transform.GetChild(0).gameObject.SetActive(false);
-            currenSelection_Unit.Remove(unit);
+            if (!currenSelection_Unit.Contains(unit))
+            {
+                currenSelection_Unit.Add(unit);
+                unit.transform.GetChild(0).gameObject.SetActive(true);
+                SetCameraPos(unit.GetComponent<UnitBehavior>().cameraPos);
+            }
+            else
+            {
+                unit.transform.GetChild(0).gameObject.SetActive(false);
+                currenSelection_Unit.Remove(unit);
+            }
         }
     }
     public void DragSelect(GameObject unit)
     {
-        DeselectAll();
-        currenSelection_Unit.Add(unit);
-        unit.transform.GetChild(0).gameObject.SetActive(true);
-        unit.GetComponent<UnitBehavior>().enabled = true;
+        //DeselectAll(); Run in foreach,will not work if deselectAll!!!
+        BuildingManager.instance.DeselectAll();
+        if (unit.GetComponent<UnitBehavior>().IsUnit())
+        {
+            currenSelection_Unit.Add(unit);
+            unit.transform.GetChild(0).gameObject.SetActive(true);
+        }
     }
     public void DeselectAll()
     {
-        foreach (var unit in currenSelection_Unit)
+        if (currenSelection_Unit != null)
         {
-            unit.GetComponent<UnitBehavior>().enabled = false;
-            unit.transform.GetChild(0).gameObject.SetActive(false);
-            unit.transform.GetChild(1).gameObject.SetActive(false);
+            foreach (var unit in currenSelection_Unit)
+            {
+                if (unit != null)
+                {
+                    unit.transform.GetChild(0).gameObject.SetActive(false);
+                    unit.transform.GetChild(1).gameObject.SetActive(false);
+                }
+            }
+            currenSelection_Unit.Clear();
         }
-        currenSelection_Unit.Clear();
     }
-    //public void OnRightClickAttack(GameObject enemy)
-    //{
-    //    DeselectEnemy();
-    //    enemyObject=enemy;
-    //}
-    //public void DeselectEnemy()
-    //{
-    //    enemyObject=null;
-    //}
     public void SetCameraPos(Transform cameraPos)
     {
-        avatar_cameraTrans.SetParent(cameraPos);
-        avatar_cameraTrans.localPosition = Vector3.zero;
-        avatar_cameraTrans.localRotation = Quaternion.identity;
+        if (cameraPos != null)
+        {
+            avatar_cameraTrans.SetParent(cameraPos);
+            avatar_cameraTrans.localPosition = Vector3.zero;
+            avatar_cameraTrans.localRotation = Quaternion.identity;
+        }
     }
-    //public void ShowCurrentPanel()
-    //{
-    //    for (int i = 0; i < Panels.Length; i++)
-    //    {
-    //        Panels[i].SetActive(false);
-    //    }
-    //    if (currenSelection_Unit[0] != null)
-    //    {
-    //        if (currenSelection_Unit[0].name.Equals("Drone"))
-    //        {
-    //            Panels[1].SetActive(true);
-    //        }
-    //        else if (currenSelection_Unit[0].name.Equals("Grav"))
-    //        {
-    //            Panels[2].SetActive(true);
-    //        }
-    //        else if (currenSelection_Unit[0].name.Equals("Tank"))
-    //        {
-    //            Panels[3].SetActive(true);
-    //        }
-    //    }
-    //    else
-    //    {
-    //        Panels[0].SetActive(true);
-    //    }
-    //}
 }

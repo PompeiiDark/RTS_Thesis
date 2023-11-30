@@ -7,6 +7,10 @@ TagManager:
   - Enemy
   - Crystal
   - Platform
+  - Obstacle
+  - Gold
+  - Unit
+  - Building
   layers:
   - Default
   - TransparentFX
@@ -15,11 +19,11 @@ TagManager:
   - Water
   - UI
   - Unit
-  - Enemy
-  - 
-  - 
-  - 
-  - 
+  - ChildPart
+  - Obstacle
+  - MiniMapOnly
+  - Build
+  - FOW
   - 
   - 
   - 

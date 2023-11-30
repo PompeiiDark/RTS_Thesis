@@ -12,10 +12,10 @@ GameObject:
   - component: {fileID: 3014236193493726002}
   - component: {fileID: 5435448258977064315}
   - component: {fileID: 2536060090117134912}
-  - component: {fileID: 2274454821547032104}
-  m_Layer: 0
+  - component: {fileID: 5512698555895731383}
+  m_Layer: 8
   m_Name: Concrete_Barrier_1
-  m_TagString: Untagged
+  m_TagString: Obstacle
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -106,17 +106,19 @@ BoxCollider:
   serializedVersion: 3
   m_Size: {x: 0.67557096, y: 0.8969129, z: 1.7364583}
   m_Center: {x: 0.000000074505806, y: 0.44845644, z: 0}
---- !u!114 &2274454821547032104
-MonoBehaviour:
+--- !u!208 &5512698555895731383
+NavMeshObstacle:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 5064979599759057890}
   m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: a7bb6b5827e07cd4c82838a132da9fbb, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  SnapSize: {x: 1, y: 1, z: 1}
-  Offset: {x: 0, y: 0, z: 0}
+  serializedVersion: 3
+  m_Shape: 1
+  m_Extents: {x: 0.33800003, y: 0.448, z: 0.86800003}
+  m_MoveThreshold: 0.1
+  m_Carve: 1
+  m_CarveOnlyStationary: 1
+  m_Center: {x: 0, y: 0.448, z: 0}
+  m_TimeToStationary: 0.5

@@ -1,11 +1,17 @@
 using Cinemachine;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class CemeraSystem : MonoBehaviour
 {
     [SerializeField] private CinemachineVirtualCamera cinemachineVirtualCamera;
-    [SerializeField] private float FOV_Max = 50f;
+    [SerializeField] private float FOV_Max = 85f;
     [SerializeField] private float FOV_Min = 10f;
+
+    [SerializeField] private float maxX = 55f;
+    [SerializeField] private float maxZ = 75f;
+    [SerializeField] private float minX = -95f;
+    [SerializeField] private float minZ = -75f;
 
     private float targetFOV = 50;
     // Update is called once per frame
@@ -20,13 +26,6 @@ public class CemeraSystem : MonoBehaviour
         Vector3 inputDir = new Vector3(0, 0, 0);
         int edgeScrollSize = 15;
 
-        //Move with Keyboard
-        //if (Input.GetKey(KeyCode.W)) inputDir.z = +1f;
-        //if (Input.GetKey(KeyCode.S)) inputDir.z = -1f;
-        //if (Input.GetKey(KeyCode.D)) inputDir.x = +1f;
-        //if (Input.GetKey(KeyCode.A)) inputDir.x = -1f;
-
-
         //Screen Move with Mouse Move
         if (Input.mousePosition.x < edgeScrollSize) inputDir.x = -1f;
         if (Input.mousePosition.y < edgeScrollSize) inputDir.z = -1f;
@@ -38,6 +37,24 @@ public class CemeraSystem : MonoBehaviour
         Vector3 moveDir = transform.forward * inputDir.z + transform.right * inputDir.x;
         float moveSpeed = 20f;
         transform.position += moveDir * moveSpeed * Time.deltaTime;
+        if (transform.position.x > maxX)
+        {
+            transform.position = new Vector3(maxX, transform.position.y, transform.position.z);
+        }
+        else if (transform.position.x < minX)
+        {
+            transform.position = new Vector3(minX, transform.position.y, transform.position.z);
+        }
+
+        if (transform.position.z > maxZ)
+        {
+            transform.position = new Vector3(transform.position.x, transform.position.y, maxZ);
+        }
+        else if (transform.position.z < minZ)
+        {
+            transform.position = new Vector3(transform.position.x, transform.position.y, minZ);
+        }
+
     }
     private void HandleCameraRotation()
     {
